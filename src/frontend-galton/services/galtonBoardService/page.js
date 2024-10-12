@@ -1,16 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/galton-boards';
-
-export async function fetchGaltonBoards() {
-    const response = await axios.get(`${API_URL}/list`);
-    return response.data;
-}
-
-export async function fetchGaltonBoardById(id) {
-    const response = await axios.get(`${API_URL}/${id}`);
-    return response.data;
-}
+const API_URL = '/api/galton-board';
 
 export async function createGaltonBoard(galtonBoard) {
     const response = await axios.post(API_URL, galtonBoard);
@@ -21,9 +11,14 @@ export async function deleteGaltonBoard(id) {
     await axios.delete(`${API_URL}/${id}`);
 }
 
+async function fetchGaltonBoards() {
+    const response = await axios.get('/api/galton-board');
+    return response.data;
+}
+
 export default {
-    fetchGaltonBoards,
-    fetchGaltonBoardById,
+
     createGaltonBoard,
     deleteGaltonBoard,
+    fetchGaltonBoards,
 };

@@ -4,8 +4,9 @@ import GaltonBoardDetails from '../components/GaltonBoardDetails';
 
 function GaltonBoardPage() {
     const { id } = useParams();
+
     return (
-        <div className="galton-board-page">
+        <div>
             <GaltonBoardDetails id={id} />
         </div>
     );

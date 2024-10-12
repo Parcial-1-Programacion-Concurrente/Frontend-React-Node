@@ -1,34 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import distribucionService from '../services/distribucionService/page';
+import galtonBoardService from '../services/galtonBoardService/page';
+import DistribucionProgress from './DistribucionProgress';
 import Loader from './Loader';
 
-export default function DistribucionDetails({ id }) {
-    const [distribucion, setDistribucion] = useState(null);
+function GaltonBoardDetails({ id }) {
+    const [galtonBoard, setGaltonBoard] = useState(null);
+    const [status, setStatus] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
 
     useEffect(() => {
-        async function loadDistribucion() {
+        let intervalId;
+
+        async function fetchStatus() {
             try {
-                const data = await distribucionService.fetchDistribucionById(id);
-                setDistribucion(data);
+                const statusData = await galtonBoardService.fetchGaltonBoardStatusById(id);
+                setStatus(statusData);
+                setLoading(false);
+
+                if (statusData.estado !== 'FINALIZADA') {
+                    // Continuar obteniendo actualizaciones
+                    intervalId = setTimeout(fetchStatus, 2000); // Cada 2 segundos
+                }
             } catch (error) {
-                setError('Error fetching distribution');
-            } finally {
+                console.error('Error fetching Galton Board status:', error);
                 setLoading(false);
             }
         }
-        loadDistribucion();
+
+        fetchStatus();
+
+        return () => {
+            if (intervalId) clearTimeout(intervalId);
+        };
     }, [id]);
 
     if (loading) return <Loader />;
-    if (error) return <div>{error}</div>;
+
+    if (!status) return <p>No se encontró el Galton Board con ID {id}</p>;
 
     return (
         <div>
-            <h3>Distribución ID: {id}</h3>
-            <p>{JSON.stringify(distribucion)}</p>
+            <h2>Detalles del Galton Board {id}</h2>
+            <p>Estado: {status.estado}</p>
+            <DistribucionProgress
+                distribucion={status.distribucionActual}
+                totalBolas={status.totalBolas}
+            />
         </div>
     );
 }
+
+export default GaltonBoardDetails;
+
 
