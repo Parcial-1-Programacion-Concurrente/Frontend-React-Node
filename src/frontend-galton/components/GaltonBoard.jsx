@@ -7,14 +7,13 @@ function GaltonBoard({ galtonBoard }) {
         return <p style={styles.noData}>Datos no disponibles.</p>;
     }
 
-    const tipoMaquina = galtonBoard.maquina?.tipo || 'Desconocido';
+
     const numBolas = galtonBoard.numBolas ?? 800;
     const distribucion = galtonBoard.distribucionActual || {};
 
     return (
         <div style={styles.card}>
             <h2 style={styles.title}>Galton Board: </h2>
-            <p style={styles.maquinaInfo}>Máquina Tipo: <span>{tipoMaquina}</span></p>
             <DistribucionTexto
                 distribucion={distribucion}
                 estado={galtonBoard.estado}
