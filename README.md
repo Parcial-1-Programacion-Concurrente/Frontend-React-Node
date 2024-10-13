@@ -1,3 +1,13 @@
+# Autores y Link-Repositorios
+
+Jaime López Díaz
+
+Nicolás Jiménez
+
+Backend Repo-Link: https://github.com/Parcial-1-Programacion-Concurrente/Backend-Springboot-OperacionDeGalton.git
+
+Frontend Repo-Link: https://github.com/Parcial-1-Programacion-Concurrente/Frontend-React-Node.git
+
 # Galton Board Frontend
 
 Este proyecto es el frontend de una aplicación React que visualiza el comportamiento de un **Galton Board**, el cual es simulado y gestionado en el backend. La aplicación frontend se comunica con el backend para obtener el estado actual de las simulaciones y mostrar la distribución de bolas en los contenedores en tiempo real.
