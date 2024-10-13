@@ -59,7 +59,7 @@ function DistribucionTexto({ distribucion, estado, id, numBolas }) {
             {estado !== 'FINALIZADA' ? (
                 <p style={styles.inProgress}>Distribución en proceso para el Galton Board con ID: {id}</p>
             ) : (
-                <p style={styles.completed}>Simulación finalizada para el Galton Board con ID: {id}</p>
+                <p style={styles.completed}>Representación de la Campana de Gauss</p>
             )}
             {distribucionFiltrada.map(([contenedor, bolas]) => {
                 const longitudBarra = Math.round((bolas / Math.min(numBolas, 500)) * 100); // Escalar la barra al 100%
