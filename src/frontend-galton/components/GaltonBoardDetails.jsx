@@ -17,8 +17,7 @@ function GaltonBoardDetails({ id }) {
                 setLoading(false);
 
                 if (statusData.estado !== 'FINALIZADA') {
-                    // Continuar obteniendo actualizaciones
-                    intervalId = setTimeout(fetchStatus, 2000); // Cada 2 segundos
+                    intervalId = setTimeout(fetchStatus, 2000);
                 }
             } catch (error) {
                 console.error('Error fetching Galton Board status:', error);

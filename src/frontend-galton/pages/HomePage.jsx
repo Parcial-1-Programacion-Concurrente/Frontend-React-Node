@@ -13,12 +13,10 @@ function HomePage() {
     const fetchGaltonBoards = async () => {
         try {
             const data = await galtonBoardService.fetchGaltonBoards();
-            console.log('GaltonBoards:', data); // Asegurarte de que los datos son correctos
+            console.log('GaltonBoards:', data);
 
-            // Filtrar los GaltonBoards que tienen una distribución con datos
             const galtonBoardsConDatos = data.filter(board => board.distribucionActual && Object.keys(board.distribucionActual).length > 0);
 
-            // Obtener los últimos 7 Galton Boards con datos
             const ultimosSieteGaltonBoards = galtonBoardsConDatos.slice(-6);
 
             setGaltonBoards(ultimosSieteGaltonBoards);
@@ -50,7 +48,6 @@ function HomePage() {
     );
 }
 
-// Estilos integrados (inline CSS)
 const styles = {
     container: {
         width: '80%',
@@ -87,7 +84,7 @@ const styles = {
     },
     boardsContainer: {
         display: 'flex',
-        flexDirection: 'column',  // Cambiamos el layout a columna para que estén uno debajo del otro
+        flexDirection: 'column',
         gap: '20px',
     },
     boardCard: {
@@ -99,7 +96,6 @@ const styles = {
     },
 };
 
-// Hover effects for board cards
 const boardCardHoverEffect = (event) => {
     event.currentTarget.style.transform = 'scale(1.02)';
 };

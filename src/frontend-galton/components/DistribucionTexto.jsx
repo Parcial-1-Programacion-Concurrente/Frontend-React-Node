@@ -6,29 +6,27 @@ function DistribucionTexto({ distribucion, estado, id, numBolas }) {
     const [distribucionActualizada, setDistribucionActualizada] = useState([]);
 
     useEffect(() => {
-        // Verificar si hay distribución válida antes de iniciar la simulación
         if (!distribucion || Object.keys(distribucion).length === 0) return;
 
-        setBolasMostradas(0); // Reiniciar el número de bolas mostradas
-        setDistribucionActualizada([]); // Limpiar la distribución actualizada
+        setBolasMostradas(0);
+        setDistribucionActualizada([]);
 
         // Iniciar intervalo para la caída de bolas en bloques de 50
         const interval = setInterval(() => {
             setBolasMostradas((prevBolasMostradas) => {
                 const nuevasBolasMostradas = prevBolasMostradas + 50;
                 if (nuevasBolasMostradas >= numBolas || nuevasBolasMostradas >= 500) {
-                    clearInterval(interval); // Detener el intervalo cuando se alcancen 500 bolas o el total
-                    return Math.min(numBolas, 500); // Limitar a 500 bolas
+                    clearInterval(interval);
+                    return Math.min(numBolas, 500);
                 }
                 return nuevasBolasMostradas;
             });
         }, 1000); // Actualizar cada 1 segundo
 
-        return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
+        return () => clearInterval(interval);
     }, [distribucion, numBolas, id]);
 
     useEffect(() => {
-        // Actualizar la distribución proporcionalmente a las bolas mostradas
         const distribucionFiltrada = distribucion ? Object.entries(distribucion).filter(([contenedor, bolas]) => bolas > 0) : [];
 
         if (bolasMostradas > 0 && distribucionFiltrada.length > 0) {

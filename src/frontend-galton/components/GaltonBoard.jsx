@@ -8,8 +8,8 @@ function GaltonBoard({ galtonBoard }) {
     }
 
     const tipoMaquina = galtonBoard.maquina?.tipo || 'Desconocido';
-    const numBolas = galtonBoard.numBolas ?? 800;  // Valor por defecto si numBolas es null o undefined
-    const distribucion = galtonBoard.distribucionActual || {};  // Valor por defecto si no hay distribucionActual
+    const numBolas = galtonBoard.numBolas ?? 800;
+    const distribucion = galtonBoard.distribucionActual || {};
 
     return (
         <div style={styles.card}>
@@ -19,7 +19,7 @@ function GaltonBoard({ galtonBoard }) {
                 distribucion={distribucion}
                 estado={galtonBoard.estado}
                 id={galtonBoard.id}
-                numBolas={numBolas}  // Usar el valor de numBolas con manejo de null
+                numBolas={numBolas}
             />
         </div>
     );
@@ -35,7 +35,7 @@ const styles = {
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
         transition: 'transform 0.3s ease',
         ':hover': {
-            transform: 'translateY(-5px)', // Efecto de levitación al pasar el mouse
+            transform: 'translateY(-5px)',
         },
     },
     title: {
