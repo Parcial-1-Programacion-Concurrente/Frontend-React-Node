@@ -1,8 +1,12 @@
-// src/DistribucionTexto.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 
 function DistribucionTexto({ distribucion, estado, id, numBolas }) {
+    // Si numBolas es null o no está definido, lo manejamos con un valor por defecto
+    if (!numBolas) {
+        return <p>Número de bolas no especificado para el Galton Board {id}.</p>;
+    }
+
     if (!distribucion || Object.keys(distribucion).length === 0) {
         return <p>No hay datos de distribución disponibles para el Galton Board {id}.</p>;
     }
@@ -15,63 +19,28 @@ function DistribucionTexto({ distribucion, estado, id, numBolas }) {
         return <p>No hay datos de distribución disponibles para el Galton Board {id}.</p>;
     }
 
-    // Ordenar los contenedores basándose en el número extraído de la clave
-    const getNumeroContenedor = (key) => {
-        const parts = key.split('_');
-        const lastPart = parts[parts.length - 1];
-        const numero = parseInt(lastPart, 10);
-        return isNaN(numero) ? 0 : numero;
-    };
-
-    const distribucionOrdenada = distribucionFiltrada
-        .sort(([aKey], [bKey]) => getNumeroContenedor(aKey) - getNumeroContenedor(bKey));
-
-    // Limitar la suma de las bolas a numBolas
-    let suma = 0;
-    const distribucionLimitada = [];
-
-    for (let [contenedor, bolas] of distribucionOrdenada) {
-        if (suma >= numBolas) {
-            break;
-        }
-        if (suma + bolas > numBolas) {
-            bolas = numBolas - suma;
-        }
-        distribucionLimitada.push([contenedor, bolas]);
-        suma += bolas;
-    }
-
-    // Depuración: Verificar la suma de bolas
-    console.log(`Distribución Limitada para GaltonBoard ID ${id}:`, distribucionLimitada);
-    console.log(`Total de bolas procesadas: ${suma} / ${numBolas}`);
-
-    // Verificar si la suma excede numBolas
-    if (suma > numBolas) {
-        console.error(`La suma de bolas (${suma}) excede el número total de bolas (${numBolas}) para GaltonBoard ID: ${id}`);
-    }
-
     // Obtener el máximo de bolas para escalar las barras
-    const maxBolas = Math.max(...distribucionLimitada.map(([_, bolas]) => bolas), 1);
+    const maxBolas = Math.max(...distribucionFiltrada.map(([_, bolas]) => bolas), 1);
 
     return (
         <div style={{ fontFamily: 'monospace', whiteSpace: 'pre' }}>
             {estado !== 'FINALIZADA' ? (
-                <p>Distribución en proceso para GaltonBoard con ID: {id}</p>
+                <p>Distribución en proceso para el Galton Board con ID: {id}</p>
             ) : (
-                <p>Simulación finalizada para GaltonBoard con ID: {id}</p>
+                <p>Simulación finalizada para el Galton Board con ID: {id}</p>
             )}
-            {distribucionLimitada.map(([contenedor, bolas]) => {
-                const longitudBarra = Math.round((bolas / maxBolas) * 50);
-                const barra = '█'.repeat(longitudBarra);
+
+            {distribucionFiltrada.map(([contenedor, bolas]) => {
+                const longitudBarra = Math.round((bolas / maxBolas) * 50); // Escalar barras
+                const barra = '█'.repeat(longitudBarra); // Crear barra con caracteres
                 return (
                     <div key={contenedor}>
-                        {`Contenedor ${contenedor.padEnd(25)}: ${barra.padEnd(50)} (${bolas})`}
+                        {`Contenedor ${contenedor.padEnd(15)}: ${barra.padEnd(50)} (${bolas})`}
                     </div>
                 );
             })}
-            {numBolas && (
-                <p>Total de bolas procesadas: {suma} / {numBolas}</p>
-            )}
+
+            <p>Total de bolas procesadas: {distribucionFiltrada.reduce((sum, [_, bolas]) => sum + bolas, 0)} / {numBolas}</p>
         </div>
     );
 }
@@ -80,7 +49,7 @@ DistribucionTexto.propTypes = {
     distribucion: PropTypes.object.isRequired,
     estado: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    numBolas: PropTypes.number.isRequired,
+    numBolas: PropTypes.number,
 };
 
 export default DistribucionTexto;

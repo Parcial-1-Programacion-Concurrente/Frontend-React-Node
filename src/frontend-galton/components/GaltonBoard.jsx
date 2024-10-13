@@ -9,6 +9,7 @@ function GaltonBoard({ galtonBoard }) {
     }
 
     const tipoMaquina = galtonBoard.maquina?.tipo || 'Desconocido';
+    const numBolas = galtonBoard.numBolas ?? 0; // Asignar 0 si numBolas es undefined o null
 
     return (
         <div style={{ border: '1px solid #ccc', padding: '20px', marginBottom: '20px' }}>
@@ -17,7 +18,7 @@ function GaltonBoard({ galtonBoard }) {
                 distribucion={galtonBoard.distribucion?.datos || {}}
                 estado={galtonBoard.estado}
                 id={galtonBoard.id}
-                numBolas={galtonBoard.numBolas}
+                numBolas={numBolas} // Pasar el valor manejado
             />
         </div>
     );
@@ -26,18 +27,19 @@ function GaltonBoard({ galtonBoard }) {
 GaltonBoard.propTypes = {
     galtonBoard: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        numBolas: PropTypes.number.isRequired,
+        numBolas: PropTypes.number, // No es más required, ya que se maneja undefined
         maquina: PropTypes.shape({
-            tipo: PropTypes.string.isRequired,
+            tipo: PropTypes.string,
         }),
         distribucion: PropTypes.shape({
-            datos: PropTypes.object.isRequired,
+            datos: PropTypes.object,
         }),
         estado: PropTypes.string.isRequired,
     }).isRequired,
 };
 
 export default GaltonBoard;
+
 
 
 

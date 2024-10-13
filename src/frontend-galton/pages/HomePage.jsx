@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import galtonBoardService from '../services/galtonBoardService/page';
-import DistribucionTexto from '../components/DistribucionTexto';
+import GaltonBoard from '../components/GaltonBoard'; // Importar el componente GaltonBoard
 
 function HomePage() {
     const [galtonBoards, setGaltonBoards] = useState([]);
@@ -13,6 +13,7 @@ function HomePage() {
     const fetchGaltonBoards = async () => {
         try {
             const data = await galtonBoardService.fetchGaltonBoards();
+            console.log(data); // Verificar los datos que llegan del backend
             setGaltonBoards(data);
             setLoading(false);
         } catch (error) {
@@ -20,6 +21,7 @@ function HomePage() {
             setLoading(false);
         }
     };
+
 
     if (loading) return <p>Cargando...</p>;
 
@@ -29,14 +31,8 @@ function HomePage() {
             <div>
                 <h2>Distribuciones de Galton Boards</h2>
                 {galtonBoards.map((board) => (
-                    <div key={board.id}>
-                        <DistribucionTexto
-                            distribucion={board.distribucionActual}
-                            estado={board.estado}
-                            id={board.id}
-                        />
-                    </div>
-                ))}
+                    <GaltonBoard key={board.id} galtonBoard={board} />
+                    ))}
             </div>
         </div>
     );
