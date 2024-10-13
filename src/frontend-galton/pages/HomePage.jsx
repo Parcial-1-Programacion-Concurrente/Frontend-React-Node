@@ -13,7 +13,7 @@ function HomePage() {
     const fetchGaltonBoards = async () => {
         try {
             const data = await galtonBoardService.fetchGaltonBoards();
-            console.log(data); // Verificar los datos que llegan del backend
+            console.log('GaltonBoards:', data); // Asegurarte de que los datos son correctos
             setGaltonBoards(data);
             setLoading(false);
         } catch (error) {
@@ -21,7 +21,6 @@ function HomePage() {
             setLoading(false);
         }
     };
-
 
     if (loading) return <p>Cargando...</p>;
 
@@ -32,10 +31,11 @@ function HomePage() {
                 <h2>Distribuciones de Galton Boards</h2>
                 {galtonBoards.map((board) => (
                     <GaltonBoard key={board.id} galtonBoard={board} />
-                    ))}
+                ))}
             </div>
         </div>
     );
 }
 
 export default HomePage;
+
